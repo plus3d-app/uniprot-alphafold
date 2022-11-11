@@ -24,7 +24,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Plus3D.app/uniprot-alphafold](https://github.com/plus3d-app/uniprot-alphafold) | a workflow API to research with data from both AlphaFoldDB e UniprotKB. It is a work-in-progress project developed as part of the BioME, LASIS and Plus3D.app commitment´s to build a easy-to-use interface for biological molecules datascience.
 
 ## Installation
 
