@@ -31,14 +31,14 @@ export class AppService {
           if (label === 'Uniprot_id') this.proteins.push(row[index]); // corre uma busca nos dados selecionando a coluna Uniprot_id
         });
 
-        readdir(__dirname + '/../src/assets/UP000005640_9606_HUMAN_v4/', (err, files) => {
+        readdir(__dirname + '/../src/assets/AF_FILES_v4/', (err, files) => {
           for(let file of files) {
             if (this.proteins.includes(file.split('-')[1]) && !this.myfiles.has(file)) {
               if (file.split('v4')[1] === '.cif.gz') {
-                copyFile(__dirname + '/../src/assets/UP000005640_9606_HUMAN_v4/' + file, __dirname + '/../src/assets/cif_files/' + file, this.callback);
+                copyFile(__dirname + '/../src/assets/AF_FILES_v4/' + file, __dirname + '/../src/assets/cif_files/' + file, this.callback);
                 console.log('arquivo .CIF.GZ movido: ', file);
               } else {
-                copyFile(__dirname + '/../src/assets/UP000005640_9606_HUMAN_v4/' + file, __dirname + '/../src/assets/pdb_files/' + file, this.callback);
+                copyFile(__dirname + '/../src/assets/AF_FILES_v4/' + file, __dirname + '/../src/assets/pdb_files/' + file, this.callback);
                 console.log('arquivo .PDB.GZ movido: ', file.split('v4')[1]);
               }
               this.myfiles.add(file);
