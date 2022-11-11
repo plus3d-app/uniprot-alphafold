@@ -21,10 +21,10 @@ export class AppService {
 
   // faz o parse do arquivo .csv e seleciona os arquivos alphafold com Uniprot_id correspondente
   async parse_copy() {
-    await createReadStream(__dirname + '/../src/assets/Base_33Tecidos_Ate_Uniprot__Missense_clean.csv').pipe(parse({ delimiter: "	", from_line: 1, to_line: 1 }))
+    await createReadStream(__dirname + '/../src/assets/Base_Uniprot.csv').pipe(parse({ delimiter: "	", from_line: 1, to_line: 1 }))
     .on("data", async (row) => {
       this.columns_names = row; // pega o nome de cada coluna do .csv
-      await createReadStream(__dirname + '/../src/assets/Base_33Tecidos_Ate_Uniprot__Missense_clean.csv').pipe(parse({ delimiter: "	", from_line: 2 }))
+      await createReadStream(__dirname + '/../src/assets/Base_Uniprot.csv').pipe(parse({ delimiter: "	", from_line: 2 }))
       .on("data", (row) => {
         
         this.columns_names.forEach((label, index) => {
@@ -64,12 +64,10 @@ export class AppService {
           if (error) {
               console.log('--- ERROR');
               console.log('processing file: ', file.split('-model')[0]);
-              console.log(error); // error encountered
+              console.log(error); // erro disparado
           } else {
               console.log('--- headers:');
-              console.log(response.headers); // response headers
-              // console.log('--- body:');
-              // console.log(body);             // content of package
+              console.log(response.headers); // cabeçalho da resposta
           }
           console.log('counting: ', counting);
         })
