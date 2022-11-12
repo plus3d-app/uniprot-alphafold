@@ -7,7 +7,8 @@ export class AppController {
 
   @Get()
   async getHello() {
-    // await this.appService.parse();
+    // await this.appService.parse_copy();
+    await await this.appService.pae_download();
     return this.appService.getHello();
   }
 }

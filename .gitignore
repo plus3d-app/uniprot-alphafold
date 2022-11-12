@@ -119,8 +119,8 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
-# MacOS metadata file
-.DS_Store
+#assets datafiles
+/src/assets/*
 
 # yarn v2
 .yarn/cache
@@ -128,3 +128,8 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# MacOS metadata file
+.DS_Store
+src/.DS_Store
+src/assets/.DS_Store

@@ -11,7 +11,7 @@ export class AppService {
 
   async getHello() {
     // await this.parse_copy();
-    await this.pae_download();
+    // await this.pae_download();
     return { msg: 'Verificando arquivos a serem baixados. Acompanhe o log de execução no terminal do node!' };
   }
 
@@ -21,24 +21,24 @@ export class AppService {
 
   // faz o parse do arquivo .csv e seleciona os arquivos alphafold com Uniprot_id correspondente
   async parse_copy() {
-    await createReadStream(__dirname + '/../src/assets/Base_Uniprot.csv').pipe(parse({ delimiter: "	", from_line: 1, to_line: 1 }))
+    await createReadStream(__dirname + '/../src/assets/Base_33Tecidos_Ate_Uniprot__Missense_clean.csv').pipe(parse({ delimiter: "	", from_line: 1, to_line: 1 }))
     .on("data", async (row) => {
       this.columns_names = row; // pega o nome de cada coluna do .csv
-      await createReadStream(__dirname + '/../src/assets/Base_Uniprot.csv').pipe(parse({ delimiter: "	", from_line: 2 }))
+      await createReadStream(__dirname + '/../src/assets/Base_33Tecidos_Ate_Uniprot__Missense_clean.csv').pipe(parse({ delimiter: "	", from_line: 2 }))
       .on("data", (row) => {
         
         this.columns_names.forEach((label, index) => {
           if (label === 'Uniprot_id') this.proteins.push(row[index]); // corre uma busca nos dados selecionando a coluna Uniprot_id
         });
 
-        readdir(__dirname + '/../src/assets/AF_FILES_v4/', (err, files) => {
+        readdir(__dirname + '/../src/assets/UP000005640_9606_HUMAN/', (err, files) => {
           for(let file of files) {
             if (this.proteins.includes(file.split('-')[1]) && !this.myfiles.has(file)) {
               if (file.split('v4')[1] === '.cif.gz') {
-                copyFile(__dirname + '/../src/assets/AF_FILES_v4/' + file, __dirname + '/../src/assets/cif_files/' + file, this.callback);
+                copyFile(__dirname + '/../src/assets/UP000005640_9606_HUMAN/' + file, __dirname + '/../src/assets/cif_files/' + file, this.callback);
                 console.log('arquivo .CIF.GZ movido: ', file);
               } else {
-                copyFile(__dirname + '/../src/assets/AF_FILES_v4/' + file, __dirname + '/../src/assets/pdb_files/' + file, this.callback);
+                copyFile(__dirname + '/../src/assets/UP000005640_9606_HUMAN/' + file, __dirname + '/../src/assets/pdb_files/' + file, this.callback);
                 console.log('arquivo .PDB.GZ movido: ', file.split('v4')[1]);
               }
               this.myfiles.add(file);
@@ -57,7 +57,7 @@ export class AppService {
         await wget({
           url: 'https://alphafold.ebi.ac.uk/files/' + file.split('-model')[0] + '-predicted_aligned_error_v4.json',
           // url: 'https://alphafold.ebi.ac.uk/files/' + file,
-          dest: __dirname + '/../src/assets/novos/'
+          dest: __dirname + '/../src/assets/pae_files/'
         },
         function (error, response, body) {
           counting += 1;
