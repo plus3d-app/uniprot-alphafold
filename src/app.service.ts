@@ -5,9 +5,7 @@ const wget = require('node-wget');
 
 @Injectable()
 export class AppService {
-  columns_names = [];
   tcga = [];
-  myfiles = new Set<string>();
   uniprot_id_uniques = new Set<string>();
 
   async getHello() {
@@ -20,37 +18,37 @@ export class AppService {
 
   // faz o parse do arquivo .csv e seleciona os arquivos alphafold com Uniprot_id correspondente
   async parse_copy() {
-    let original_af_directory = __dirname + '/../src/assets/UP000005640_9606_HUMAN_v4/';
-    let destiny_cif_directory = __dirname + '/../src/assets/cif_files/';
-    let destiny_pdb_directory = __dirname + '/../src/assets/pdb_files/';
-    let original_uniprot_csv = __dirname + '/../src/assets/Base_33Tecidos_Ate_Uniprot__Missense_clean.csv';
+    const original_af_directory = process.env.original_af_directory;
+    const destiny_cif_directory = process.env.destiny_cif_directory;
+    const destiny_pdb_directory = process.env.destiny_pdb_directory;
+    const uniprot_csv_file = process.env.uniprot_csv_file;
     
     console.log('Selecting Uniprot_id identifiers...')
-      await createReadStream(original_uniprot_csv).pipe(parse({ delimiter: "	", from_line: 1, columns: true }))
-      .on('data', (id) => {
-        this.tcga.push(id['Uniprot_id']);
-        this.uniprot_id_uniques.add(id['Uniprot_id']);
-      }).on('end', (data) => {
-        console.log('Finished selection. Copying files...');
-        console.log('.CSV total entries: ', this.tcga.length);
-        let acc = 0;
-        readdir(original_af_directory, (err, files) => {
-          for(let file of files) {
-            if (this.uniprot_id_uniques.has(file.split('-')[1])) {
-              acc = acc + 1;
-              if (file.split('v4')[1] === '.cif.gz') {
-                copyFile(original_af_directory + file, destiny_cif_directory + file, this.callback);
-                console.log('Found .CIF.GZ: ', file);
-              } else {
-                copyFile(original_af_directory + file, destiny_pdb_directory + file, this.callback);
-                console.log('Found .PDB.GZ: ', file);
-              }
+    await createReadStream(uniprot_csv_file).pipe(parse({ delimiter: "	", from_line: 1, columns: true }))
+    .on('data', (row) => {
+      this.tcga.push(row['Uniprot_id']);
+      this.uniprot_id_uniques.add(row['Uniprot_id']);
+    }).on('end', () => {
+      console.log('Finished selection. Total entries on .csv: ', this.tcga.length);
+      console.log('Copying files...');
+      let acc = 0;
+      readdir(original_af_directory, (err, files) => {
+        for(let file of files) {
+          if (this.uniprot_id_uniques.has(file.split('-')[1])) {
+            acc = acc + 1;
+            if (file.split('v4')[1] === '.cif.gz') {
+              copyFile(original_af_directory + file, destiny_cif_directory + file, this.callback);
+              console.log('Found .CIF.GZ: ', file);
+            } else {
+              copyFile(original_af_directory + file, destiny_pdb_directory + file, this.callback);
+              console.log('Found .PDB.GZ: ', file);
             }
           }
-          console.log('Total Uniprot_id distinct: ', this.uniprot_id_uniques.size);
-          console.log('Total files found (.cif + .pdb): ', acc);
-        });
+        }
+        console.log('Total Uniprot_id (distinct): ', this.uniprot_id_uniques.size);
+        console.log('Total files found (.cif + .pdb): ', acc);
       });
+    });
   }
 
   // verifica os arquivos alphafold selecionados e baixa os arquivos de "Predicted Aligned Error" correspondentes
