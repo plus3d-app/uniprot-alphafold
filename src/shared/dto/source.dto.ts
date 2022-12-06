@@ -1,0 +1,37 @@
+export class Source {
+	mol_id?: string;
+    synthetic?: string;
+    fragment?: string;
+    organism_scientific?: string;
+    organism_common?: string;
+    organism_taxid?: string;
+    strain?: string;
+    variant?: string;
+    cell_line?: string;
+    atcc?: string;
+    organ?: string;
+    tissue?: string;
+    cell?: string;
+    organelle?: string;
+    secretion?: string;
+    cellular_location?: string;
+	plasmid?: string;
+    gene?: string;
+    expression_system?: string;
+    expression_system_common?: string;
+    expression_system_taxid?: string;
+    expression_system_strain?: string;
+    expression_system_variant?: string;
+    expression_system_cell_line?: string;
+    expression_system_atcc_number?: string;
+    expression_system_organ?: string;
+    expression_system_tissue?: string;
+    expression_system_cell?: string;
+    expression_system_organelle?: string;
+    expression_system_cellular_location?: string;
+    expression_system_vector_type?: string;
+    expression_system_vector?: string;
+    expression_system_plasmid?: string;
+    expression_system_gene?: string;
+    other_details?: string;
+}

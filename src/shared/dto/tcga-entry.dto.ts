@@ -1,4 +1,4 @@
-class Protein {
+export class TCGAEntry {
     CHROM: string;
     POS: string;
     REF: string;

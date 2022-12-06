@@ -21,15 +21,23 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs/axios": "^1.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/typeorm": "^9.0.1",
     "csv": "^6.2.2",
+    "mysql": "^2.18.1",
     "node-wget": "^0.4.3",
+    "parse-mmcif": "^0.0.1",
+    "parse-pdb": "^1.0.0",
+    "pdb-parser-js": "^0.0.5",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "typeorm": "^0.3.10",
+    "zlib": "^1.0.5"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
